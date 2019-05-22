@@ -1,0 +1,61 @@
+<div class="container-fluid">
+  <div class="row">
+
+  </div>
+  <div class="row">
+    <table class="table table-bordered">
+      <thead class="thead-dark">
+      <tr>
+        <th>Source</th>
+        <th>Leads</th>
+        <th>% of Leads</th>
+        <th>Revenue Leads</th>
+        <th>Revenue Calls</th>
+        <th>Revenue Full</th>
+      </tr>
+      </thead>
+      <tbody>
+      <ng-container *ngFor="let item of firstLevelData">
+      <tr (click)="openItem(item.level, item.id)">
+        <td>{{item.source}}</td>
+        <td>{{item.leads}}</td>
+        <td>{{getPersentOfLeads(item.leads) | percent}}</td>
+        <td>{{item.revenueLeads}}</td>
+        <td>{{item.revenueCalls}}</td>
+        <td>{{item.revenueLeads + item.revenueCalls}}</td>
+      </tr>
+        <ng-container *ngFor="let child of childrenItems[item.id]">
+          <tr class="secondLevel" (click)="getChildren(child.id, child.level)">
+            <td>{{child.source}}</td>
+            <td>{{child.leads}}</td>
+            <td>{{getPersentOfLeads(item.leads) | percent}}</td>
+            <td>{{child.revenueLeads}}</td>
+            <td>{{child.revenueCalls}}</td>
+            <td>{{child.revenueLeads + child.revenueCalls}}</td>
+          </tr>
+          <ng-container *ngFor="let grandChild of childrenItems[child.id]">
+            <tr class="thirdLevel">
+            <td>{{grandChild.source}}</td>
+            <td>{{grandChild.leads}}</td>
+            <td>{{getPersentOfLeads(item.leads) | percent}}</td>
+            <td>{{grandChild.revenueLeads}}</td>
+            <td>{{grandChild.revenueCalls}}</td>
+            <td>{{grandChild.revenueLeads + child.revenueCalls}}</td>
+            </tr>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+      </tbody>
+      <tfoot>
+      <tr>
+        <td>Total</td>
+        <td>{{getTotalByFiels('leads')}}</td>
+        <td>100%</td>
+        <td>{{getTotalByFiels('revenueLeads')}}</td>
+        <td>{{getTotalByFiels('revenueCalls')}}</td>
+        <td>{{getTotalByFiels('revenueLeads') + getTotalByFiels('revenueCalls')}}</td>
+      </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
