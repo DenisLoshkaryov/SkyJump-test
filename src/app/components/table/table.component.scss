@@ -1,5 +1,7 @@
-tfoot {
-  font-weight: bold;
+thead {
+  th {
+    cursor: pointer;
+  }
 }
 
 tbody {
@@ -23,3 +25,6 @@ tbody {
   }
 }
 
+tfoot {
+  font-weight: bold;
+}

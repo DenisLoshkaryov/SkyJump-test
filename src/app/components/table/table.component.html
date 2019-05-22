@@ -6,20 +6,20 @@
     <table class="table table-bordered">
       <thead class="thead-dark">
       <tr>
-        <th>Source</th>
-        <th>Leads</th>
-        <th>% of Leads</th>
-        <th>Revenue Leads</th>
-        <th>Revenue Calls</th>
-        <th>Revenue Full</th>
+        <th (click)="setSortingParams('source')">Source</th>
+        <th (click)="setSortingParams('leads')">Leads</th>
+        <th (click)="setSortingParams('percentOfLeads')">% of Leads</th>
+        <th (click)="setSortingParams('revenueLeads')">Revenue Leads</th>
+        <th (click)="setSortingParams('revenueCalls')">Revenue Calls</th>
+        <th (click)="setSortingParams('revenueFull')">Revenue Full</th>
       </tr>
       </thead>
       <tbody>
-      <ng-container *ngFor="let item of firstLevelData">
+      <ng-container *ngFor="let item of firstLevelData | dataSort : sortingParams.field : sortingParams.desc">
       <tr (click)="openItem(item.level, item.id)">
         <td>{{item.source}}</td>
         <td>{{item.leads}}</td>
-        <td>{{getPersentOfLeads(item.leads) | percent}}</td>
+        <td>{{getPercentOfLeads(item.leads) | percent}}</td>
         <td>{{item.revenueLeads}}</td>
         <td>{{item.revenueCalls}}</td>
         <td>{{item.revenueLeads + item.revenueCalls}}</td>
@@ -28,7 +28,7 @@
           <tr class="secondLevel" (click)="getChildren(child.id, child.level)">
             <td>{{child.source}}</td>
             <td>{{child.leads}}</td>
-            <td>{{getPersentOfLeads(item.leads) | percent}}</td>
+            <td>{{getPercentOfLeads(item.leads) | percent}}</td>
             <td>{{child.revenueLeads}}</td>
             <td>{{child.revenueCalls}}</td>
             <td>{{child.revenueLeads + child.revenueCalls}}</td>
@@ -37,7 +37,7 @@
             <tr class="thirdLevel">
             <td>{{grandChild.source}}</td>
             <td>{{grandChild.leads}}</td>
-            <td>{{getPersentOfLeads(item.leads) | percent}}</td>
+            <td>{{getPercentOfLeads(item.leads) | percent}}</td>
             <td>{{grandChild.revenueLeads}}</td>
             <td>{{grandChild.revenueCalls}}</td>
             <td>{{grandChild.revenueLeads + child.revenueCalls}}</td>

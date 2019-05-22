@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 
 import { DataService } from '../../services';
 import { DataItem } from '../../models/data-item';
@@ -13,8 +13,10 @@ export class TableComponent implements OnInit, OnDestroy {
   firstLevelData: DataItem[];
   levelsOpened: {[name: number]: Set<number>} = {};
   childrenItems: {[name: number]: DataItem[]} = {};
+  sortingParams: {field: string; desc: boolean} = {field: 'none', desc: false};
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService,
+              private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.firstLevelData = this.dataService.getFirstLevelData();
@@ -46,7 +48,7 @@ export class TableComponent implements OnInit, OnDestroy {
     this.getChildren(id, level);
   }
 
-  getPersentOfLeads(leads: number): number {
+  getPercentOfLeads(leads: number): number {
     return leads / this.getTotalByFiels('leads');
   }
 
@@ -54,4 +56,14 @@ export class TableComponent implements OnInit, OnDestroy {
     this.childrenItems[parentId] = this.dataService.getChildren(parentId, parentLevel);
   }
 
+
+  setSortingParams(field: string): void {
+    if (this.sortingParams.field === field) {
+      this.sortingParams.desc = !this.sortingParams.desc;
+    } else {
+      this.sortingParams.field = field;
+      this.sortingParams.desc = false;
+    }
+    console.log(this.sortingParams);
+  }
 }
